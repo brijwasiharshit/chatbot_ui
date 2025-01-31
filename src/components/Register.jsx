@@ -1,13 +1,15 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import SignupFormImage from "../assets/images/beyond.png";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../assets/firebase";
-import { doc,setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore"; // Import getDoc
 import useValidateCredentials from "../assets/hooks/useValidateCredentials";
 import { useNavigate } from "react-router";
 
 const Register = ({ setFormType }) => {
-    const navigate = useNavigate();
+
+  const [error, setError] = useState();
+  const navigate = useNavigate();
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
@@ -16,30 +18,33 @@ const Register = ({ setFormType }) => {
     e.preventDefault();
     console.log(name.current.value, email.current.value, password.current.value);
    
-    try{
-       await useValidateCredentials({
-            name: name.current.value,
-            email: email.current.value,
-            password: password.current.value
-          });
-          
-        
-        await createUserWithEmailAndPassword(auth,email.current.value,password.current.value);
+    try {
+      // You should use the hook here to validate the credentials.
+      const validate = useValidateCredentials({
+        name: name.current.value,
+        email: email.current.value,
+        password: password.current.value
+      });
+
+      if (validate) {
+        await createUserWithEmailAndPassword(auth, email.current.value, password.current.value);
         const user = auth.currentUser;
 
         console.log(user);
-        if(user){
-            
-            await setDoc(doc(db,"Users",user.uid),{
-                name: name.current.value,
-                email: user.email
-            });
-            console.log("User Signed up successfully");
-            navigate("/body/company");
+        if (user) {
+          await setDoc(doc(db, "Users", user.uid), {
+            name: name.current.value,
+            email: user.email
+          });
+          console.log("User Signed up successfully");
+          navigate("/body/company");
         }
-    }
-    catch(err){
-        console.log(err);
+      } else {
+        setError("Invalid credentials");
+      }
+    } catch (err) {
+      console.log(err);
+      setError(err.message); // Change to err.message for better error display
     }
   };
 
@@ -49,10 +54,9 @@ const Register = ({ setFormType }) => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
   
-      console.log(user); 
+      console.log(user);
       console.log("User logged in with Gmail");
   
-     
       const userRef = doc(db, "Users", user.uid);
       const userSnap = await getDoc(userRef);
   
@@ -66,6 +70,7 @@ const Register = ({ setFormType }) => {
   
       navigate("/body/company"); 
     } catch (error) {
+      setError(error.message); // Fix error handling here
       console.error("Google sign-in error:", error);
     }
   };
@@ -79,16 +84,18 @@ const Register = ({ setFormType }) => {
           <h2 className="font-bold text-4xl text-[#002D74] mb-2">Sign Up</h2>
           <p className="text-sm text-gray-600 mb-8">Create an account to get started.</p>
 
+          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
-              ref = {name}
+              ref={name}
               className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#002D74]"
               type="text"
               name="name"
               placeholder="Full Name"
             />
             <input
-              ref = {email}
+              ref={email}
               className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#002D74]"
               type="email"
               name="email"
@@ -96,7 +103,7 @@ const Register = ({ setFormType }) => {
             />
             <div className="relative">
               <input
-                ref = {password}
+                ref={password}
                 className="p-3 rounded-lg border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-[#002D74]"
                 type="password"
                 name="password"

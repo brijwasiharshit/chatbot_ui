@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import LoginFormImage from "../assets/images/beyond.png";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "../assets/firebase";
@@ -8,6 +8,8 @@ import { useNavigate } from "react-router";
 
 
 const Login = ({ setFormType }) => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
     const navigate = useNavigate();
   const email = useRef(null);
   const password = useRef(null);
@@ -32,10 +34,12 @@ const Login = ({ setFormType }) => {
         });
         console.log("New Google user added to Firestore");
       }
+      setSuccess("Logged in with Google successfully!");
   
       navigate("/body/company"); // Redirect after login
     } catch (error) {
       console.error("Google sign-in error:", error);
+      setError("Failed to log in with Google.");
     }
   };
   
@@ -58,10 +62,11 @@ const Login = ({ setFormType }) => {
 
     } catch (err) {
       console.log(err);
+      setError("Login failed! Check if email and password are entered and correct");
     }
   };
   return (
-    <section className="bg-gradient-to-br from-blue-400 to-purple-500 min-h-screen flex items-center justify-center p-4">
+    <section className="bg-gradient-to-br from-blue-400 to-purple-500 min-h-screen flex items-center justify-center px-4 py-2 ">
       <div className="bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row max-w-4xl overflow-hidden border-2 border-white">
         {/* Left Side - Login Form */}
         <div className="w-full md:w-1/2 p-8">
@@ -69,6 +74,8 @@ const Login = ({ setFormType }) => {
           <p className="text-sm text-gray-600 mb-8">
             If you're already a member, log in now.
           </p>
+          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+          {success && <div className="text-green-500 mb-4">{success}</div>}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input

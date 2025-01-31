@@ -1,6 +1,7 @@
 const emailChecker = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export default function useValidateCredentials({ name, email, password }) {
+    if(!name) throw new Error("Please enter your name");
     if (!email) throw new Error("Please enter an email address.");
     if (!password) throw new Error("Please enter your password.");
 
