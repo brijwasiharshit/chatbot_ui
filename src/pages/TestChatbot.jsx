@@ -10,23 +10,15 @@ function TestChatbot() {
       className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 text-white p-4 md:p-6"
     >
       {/* Chatbot Overlay */}
-      <div className="fixed inset-0 flex flex-col bg-white shadow-lg">
+      <div className="fixed inset-0 flex flex-col bg-white shadow-lg z-10">
         {/* Top Bar for Feedback */}
-        <div className="w-full bg-gray-100 py-3 px-6 flex justify-between items-center shadow-md">
-          <p className="text-sm sm:text-base text-gray-800">
-            Chatbot not working?{" "}
-            <a href="#" className="text-blue-600 hover:underline">
-              Share feedback
-            </a>
-          </p>
-          <button className="text-gray-600 hover:text-gray-800">✕</button>
-        </div>
+       
 
         {/* Website Content */}
         <div className="flex-1 overflow-y-auto bg-gray-50">
           {/* Hero Section */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16 sm:py-20 text-center">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4">Welcome to Dummy Website</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold my-4 ">Welcome to Dummy Website</h1>
             <p className="text-lg sm:text-xl text-gray-200">
               We provide innovative solutions to grow your business.
             </p>
@@ -57,7 +49,7 @@ function TestChatbot() {
         </div>
 
         {/* Chatbot UI */}
-        <div className="fixed bottom-6 right-2 md:right-6 w-full sm:w-40 md:w-96 lg:w-1/3 xl:w-1/4 bg-white rounded-lg shadow-2xl">
+        <div className="fixed bottom-6 right-2 md:right-6 w-full sm:w-40 md:w-96 lg:w-1/3 xl:w-1/4 bg-white rounded-lg shadow-2xl z-30">
           <div className="bg-blue-500 text-white p-4 flex justify-between">
             <h3 className="font-semibold text-sm sm:text-base">Dummy Chatbot</h3>
             <button className="hover:text-gray-200">✕</button>
