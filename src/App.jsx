@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router"
 import LoginSignup from "./pages/LoginSignup"
 import Body from "./pages/Body"
 import SetupOrganization from "./pages/SetupOrganization"
-import ChatBot from "./pages/ChatBot"
+
 import { useEffect, useState } from "react"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "./assets/firebase"
