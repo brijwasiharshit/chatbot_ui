@@ -4,18 +4,16 @@ import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import OrganizationSetupForm from "./OrganizationSetupForm";
-
-
+import LoadingSpinner from "../components/LoadingSpinner";
+import { motion } from "framer-motion";
 
 const SetupOrganization = () => {
   const navigate = useNavigate();
   const [UserDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [company, setCompany] = useState({ name: "", website: "", description: "" });
-  const [scrapingProgress, setScrapingProgress] = useState(50);
-  const [selectedPage, setSelectedPage] = useState(null);
 
   useEffect(() => {
+    // This returns an event listener to stop the auth change listener
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const docRef = doc(db, "Users", user.uid);
@@ -23,7 +21,11 @@ const SetupOrganization = () => {
         if (docSnap.exists()) {
           setUserDetails(docSnap.data());
         } else {
-          setUserDetails({ name: user.displayName || "Google User", email: user.email, uid: user.uid });
+          setUserDetails({
+            name: user.displayName || "Google User",
+            email: user.email,
+            uid: user.uid,
+          });
         }
       } else {
         navigate("/");
@@ -33,24 +35,25 @@ const SetupOrganization = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-
-  const fetchMetaDescription = async () => {
-    setCompany(prev => ({ ...prev, description: "Automatically fetched meta-description for the website." }));
-  };
-
   return (
-    <div className="py-24 px-8 md:px-0 space-y-6 my-auto bg-gradient-to-br from-blue-400 to-purple-500 mx-auto ">
+    <motion.div
+      className="py-12 sm:py-24 px-4 sm:px-8 md:px-12 lg:px-24 space-y-6 bg-gradient-to-br from-blue-400 to-purple-500 min-h-screen flex flex-col justify-center items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       {loading ? (
-        <h1>Loading...</h1>
+        <LoadingSpinner />
       ) : UserDetails ? (
         <>
-        <OrganizationSetupForm name = {UserDetails.name}/>
-       
+          <OrganizationSetupForm name={UserDetails.name} />
         </>
       ) : (
-        <h1>User data not found!</h1>
+        <h1 className="text-white text-xl sm:text-2xl font-bold text-center">
+          User data not found!
+        </h1>
       )}
-    </div>
+    </motion.div>
   );
 };
 

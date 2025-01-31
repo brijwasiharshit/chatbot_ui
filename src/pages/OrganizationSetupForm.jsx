@@ -7,16 +7,19 @@ const OrganizationSetupForm = ({ name }) => {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [companyDescription, setCompanyDescription] = useState("");
   const [isFetching, setIsFetching] = useState(false);
-    
 
-const handleMoveToNext = () => {
-  if (companyName.trim() !== "" && websiteUrl.trim() !== "" && companyDescription.trim() !== "") {
-    navigate("/body/scraping");
-  } else {
-    alert("Please fill in all fields before proceeding.");
-  }
-}
-  
+  const handleMoveToNext = () => {
+    if (
+      companyName.trim() !== "" &&
+      websiteUrl.trim() !== "" &&
+      companyDescription.trim() !== ""
+    ) {
+      navigate("/body/scraping");
+    } else {
+      alert("Please fill in all fields before proceeding.");
+    }
+  };
+
   // Function to fetch meta description from the website URL
   const fetchMetaDescription = async () => {
     if (!websiteUrl.trim()) {
@@ -65,8 +68,8 @@ const handleMoveToNext = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+    <div className="max-w-md mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-gray-800">
         <span className="text-red-500">Hi, {name}</span>
         <div>Setup your Organisation</div>
       </h2>
@@ -98,7 +101,7 @@ const handleMoveToNext = () => {
           >
             Company Website URL
           </label>
-          <div className="flex gap-2 mt-1">
+          <div className="flex flex-col sm:flex-row gap-2 mt-1">
             <input
               type="url"
               id="websiteUrl"
@@ -140,7 +143,7 @@ const handleMoveToNext = () => {
 
         {/* Submit Button */}
         <button
-        onClick={handleMoveToNext}
+          onClick={handleMoveToNext}
           type="submit"
           className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
         >

@@ -1,12 +1,16 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
-import { Outlet } from 'react-router'
-
+import { Outlet, useLocation } from 'react-router'
+import { AnimatePresence } from 'framer-motion'
 const Body = () => {
+  const location = useLocation();
   return (
     <>
+    <AnimatePresence>
     <NavBar />
-    <Outlet />
+    <Outlet location = {location}/>
+    </AnimatePresence>
+   
     </>
   )
 }

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { leftArrow } from '../assets/svgs';
 import { useNavigate } from 'react-router';
+import { motion } from 'framer-motion';
 
 const Content = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('content'); // State to track which section is active
 
   // Sample data
@@ -36,42 +37,55 @@ const Content = () => {
   };
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-4xl mx-auto my-4 ">
-    <div className="flex items-center justify-between bg-gray-100 p-4 mb-4">
-  <button 
-    onClick={() => navigate("/body/scraping")} 
-    className="p-2 text-gray-700 rounded-lg hover:bg-gray-200 transition hover:cursor-pointer"
-  >
-    {leftArrow}
-  </button>
-  <h2 className="text-xl font-semibold text-gray-800 text-center flex-1">
-    Scraped Data for Webpage
-  </h2>
-</div>
-
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="bg-gray-100 p-4 sm:p-6 rounded-lg shadow-lg max-w-4xl mx-auto my-4"
+    >
+      {/* Header with Back Button */}
+      <div className="flex items-center justify-between bg-gray-100 p-3 sm:p-4 mb-4">
+        <button
+          onClick={() => navigate("/body/scraping")}
+          className="p-2 text-gray-700 rounded-lg hover:bg-gray-200 transition hover:cursor-pointer"
+        >
+          {leftArrow}
+        </button>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center flex-1">
+          Scraped Data for Webpage
+        </h2>
+      </div>
 
       {/* Tabs for toggling between sections */}
-      <div className="flex gap-6 mb-4">
+      <div className="flex flex-wrap gap-2 sm:gap-4 mb-4">
         <button
-          className={`px-4 py-2 rounded-lg ${activeTab === 'content' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
+            activeTab === 'content' ? 'bg-blue-500 text-white' : 'bg-gray-300'
+          }`}
           onClick={() => setActiveTab('content')}
         >
           Content
         </button>
         <button
-          className={`px-4 py-2 rounded-lg ${activeTab === 'links' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
+            activeTab === 'links' ? 'bg-blue-500 text-white' : 'bg-gray-300'
+          }`}
           onClick={() => setActiveTab('links')}
         >
           Links
         </button>
         <button
-          className={`px-4 py-2 rounded-lg ${activeTab === 'media' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
+            activeTab === 'media' ? 'bg-blue-500 text-white' : 'bg-gray-300'
+          }`}
           onClick={() => setActiveTab('media')}
         >
           Media
         </button>
         <button
-          className={`px-4 py-2 rounded-lg ${activeTab === 'structuredData' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+          className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
+            activeTab === 'structuredData' ? 'bg-blue-500 text-white' : 'bg-gray-300'
+          }`}
           onClick={() => setActiveTab('structuredData')}
         >
           Structured Data
@@ -81,12 +95,12 @@ const Content = () => {
       {/* Content Section */}
       {activeTab === 'content' && (
         <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold mb-4">Content</h3>
+          <h3 className="text-lg sm:text-xl font-semibold mb-4">Content</h3>
           <p><strong>Title:</strong> {sampleData.title}</p>
           <p><strong>Meta Description:</strong> {sampleData.metaDescription}</p>
 
           <div className="mt-4">
-            <h4 className="text-lg font-semibold">Headings:</h4>
+            <h4 className="text-md sm:text-lg font-semibold">Headings:</h4>
             <ul className="list-disc pl-5">
               {sampleData.headings.map((heading, index) => (
                 <li key={index}>{heading}</li>
@@ -95,7 +109,7 @@ const Content = () => {
           </div>
 
           <div className="mt-4">
-            <h4 className="text-lg font-semibold">Paragraphs:</h4>
+            <h4 className="text-md sm:text-lg font-semibold">Paragraphs:</h4>
             <ul className="list-inside">
               {sampleData.content.map((paragraph, index) => (
                 <li key={index} className="mt-2">{paragraph}</li>
@@ -108,7 +122,7 @@ const Content = () => {
       {/* Links Section */}
       {activeTab === 'links' && (
         <div className="bg-white p-4 rounded-lg shadow-md mt-4">
-          <h3 className="text-xl font-semibold mb-4">Links</h3>
+          <h3 className="text-lg sm:text-xl font-semibold mb-4">Links</h3>
           <div>
             <h4 className="font-semibold">Internal Links:</h4>
             <ul className="list-disc pl-5">
@@ -132,7 +146,7 @@ const Content = () => {
       {/* Media Section */}
       {activeTab === 'media' && (
         <div className="bg-white p-4 rounded-lg shadow-md mt-4">
-          <h3 className="text-xl font-semibold mb-4">Media</h3>
+          <h3 className="text-lg sm:text-xl font-semibold mb-4">Media</h3>
           {sampleData.media.map((media, index) => (
             <div key={index} className="mt-4">
               {media.type === 'image' && (
@@ -154,7 +168,7 @@ const Content = () => {
       {/* Structured Data Section */}
       {activeTab === 'structuredData' && (
         <div className="bg-white p-4 rounded-lg shadow-md mt-4">
-          <h3 className="text-xl font-semibold mb-4">Structured Data</h3>
+          <h3 className="text-lg sm:text-xl font-semibold mb-4">Structured Data</h3>
           {sampleData.structuredData.faq.map((faq, index) => (
             <div key={index} className="mt-4">
               <p><strong>Q:</strong> {faq.question}</p>
@@ -163,7 +177,7 @@ const Content = () => {
           ))}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

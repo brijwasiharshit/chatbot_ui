@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { motion } from "framer-motion";
 function IntegrateOnWebsite() {
   const [copied, setCopied] = useState(false);
   const dummyCode = `<script src="https://example.com/chatbot.js"></script>`;
@@ -11,7 +11,11 @@ function IntegrateOnWebsite() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[90vh] bg-gradient-to-br from-blue-600 to-purple-700 text-white p-6">
+    <motion.div
+    initial = {{opacity:0}}
+    animate = {{opacity:1}}
+    exit = {{opacity:0}}
+    className="flex flex-col items-center justify-center min-h-[90vh] bg-gradient-to-br from-blue-600 to-purple-700 text-white p-6">
       <h2 className="text-4xl font-bold mb-6 text-center">Chatbot Integration</h2>
       <p className="text-lg text-gray-200 mb-8 text-center max-w-2xl">
         Choose how you want to integrate the chatbot on your website. Whether you prefer a quick copy-paste or sending instructions to your developer, we've got you covered.
@@ -68,7 +72,7 @@ function IntegrateOnWebsite() {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

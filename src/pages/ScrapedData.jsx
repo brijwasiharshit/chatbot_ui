@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import Header from '../components/Header';
 import Detections from '../components/Detections';
 import ProgressBar from '../components/ProgressBar';
-
+import { motion } from 'framer-motion';
 // Create context outside of the component
 export const waitContext = createContext();
 
@@ -11,13 +11,18 @@ const ScrapedData = () => {
   const scraped = 4, total = 10, pending = 6;
 
   return (
-    <div>
+    <motion.div
+    initial = {{opacity:0}}
+    animate = {{opacity:1}}
+    exit = {{opacity:0}}
+
+    >
       <waitContext.Provider value={{waitBtn,setWaitBtn}}>
         <Header />
         <Detections />
         <ProgressBar />
       </waitContext.Provider>
-    </div>
+    </motion.div>
   );
 };
 
